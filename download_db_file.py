@@ -1,6 +1,7 @@
 import time
 import boto3
 import logging
+import sys
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s|%(name)s|%(levelname)s|%(message)s')
 logger = logging.getLogger(__name__)
@@ -114,11 +115,16 @@ def upload_file(client, file_name, bucket, object_name=None):
     return True
 
 def main():
+    print(sys.argv)
+    if len(sys.argv) < 4:
+        print(f'usage: {sys.argv[0]} <db name> <file name prefix> <time period in seconds>\n' +
+                'ex: {sys.argv[0] lab slowlog 3600}\n')
+        return 1
 
     now = lambda: int(time.time()*1000)
 
     client = boto3.client('rds')
-    file_list = get_file_list(client, 'lab', 'audit', now() - TIME_PERIOD)
+    file_list = get_file_list(client, sys.argv[1], sys.argv[2], now() - int(sys.argv[3]))
     
     logging.info(f'We have {len(file_list)} files need be download.')
 
