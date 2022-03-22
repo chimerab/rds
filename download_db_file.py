@@ -118,7 +118,7 @@ def main():
     print(sys.argv)
     if len(sys.argv) < 4:
         print(f'usage: {sys.argv[0]} <db name> <file name prefix> <time period in seconds>\n' +
-                'ex: {sys.argv[0] lab slowlog 3600}\n')
+                'ex: {sys.argv[0]} lab slowlog 3600}\n')
         return 1
 
     now = lambda: int(time.time()*1000)
